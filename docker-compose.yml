@@ -1,0 +1,100 @@
+version: '3'
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - mynetwork  
+  kafka:
+    container_name: kafka
+    image: 'wurstmeister/kafka:latest'
+    ports:
+      - '9092:9092'
+    hostname: 'kafka'
+    environment:
+      # KAFKA_BROKER_ID: 1
+      # KAFKA_LISTENERS: PLAINTEXT://:9092
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # ALLOW_PLAINTEXT_LISTENER: yes
+      KAFKA_CREATE_TOPICS: testtopic
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+    depends_on:
+      - zookeeper
+    networks:
+      - mynetwork  
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - 27017:27017 
+    # depends_on:
+      # - kafka
+    networks:
+      - mynetwork
+  producer:
+      container_name: producer
+      ports:
+        - 5004:5004
+      depends_on:
+        - kafka
+        - zookeeper
+        - mongo
+      build: ./services/producer
+      networks:
+      - mynetwork
+      links:
+        - mongo
+        - kafka
+  consumer:
+      container_name: consumer1
+      command: node consumer.js 1
+      ports:
+        - 5001:5001
+      depends_on:
+        - kafka
+        - zookeeper
+        - mongo
+        - producer
+      build: ./services/consumer
+      networks:
+      - mynetwork
+      links:
+        - kafka
+  consumer2:
+      container_name: consumer2
+      command: node consumer.js 2
+      ports:
+        - 5002:5002
+      depends_on:
+        - kafka
+        - zookeeper
+        - mongo
+        - producer
+      build: ./services/consumer
+      networks:
+      - mynetwork
+      links:
+        - kafka
+  consumer3:
+      container_name: consumer3
+      command: node consumer.js 3
+      ports:
+        - 5003:5003
+      depends_on:
+        - kafka
+        - zookeeper
+        - mongo
+        - producer
+      build: ./services/consumer
+      networks:
+      - mynetwork
+      links:
+        - kafka
+networks:
+  mynetwork: 
+    driver: bridge
