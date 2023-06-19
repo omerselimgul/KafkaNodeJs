@@ -11,8 +11,15 @@ This app also have helper app for adding new record.if you run AddData.js that w
 
 ## Instructions
 This demonstration assumes you already have `docker` and `docker-compose` installed. The steps are as follows:
-
-1) Using `docker-compose`, spin up all containers (Zookeeper, Kafka, Database, Producer and Consumer):
+1) firstly using cd command locate to insede projecet folder  
+```shell
+cd KafkaNodeJs
+```
+2) Using `docker-compose`, build docker image from  dockerfiles of Producer and Consumer:
+```shell
+docker-compose build
+```
+3) Using `docker-compose`, spin up all containers (Zookeeper, Kafka, Database, Producer and Consumer):
 ```shell
 docker-compose up
 ```
