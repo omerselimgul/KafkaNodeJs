@@ -16,6 +16,19 @@ This demonstration assumes you already have `docker` and `docker-compose` instal
 ```shell
 docker-compose up
 ```
-
-
-
+## Test
+1) After docker compose up command project will be running,if you want to test to project you can run the AddData.js but before you locate to Service/producer on cmd:
+```shell
+cd /services/producer
+```
+2) After you can install dependencies of AddData.js
+```shell
+npm install 
+```
+After you can set to veriler variable in AddData.js :
+![Alt text](https://raw.githubusercontent.com/omerselimgul/KafkaNodeJs/main/images/adddatajsfile.jpeg)
+3) After you can add veriler variable as new record to Mongodb
+```shell
+node AddData.js
+```
+Procuder check to mongoDb.it find newdata which is added by you and will send newdata as message to kafka .Consumers take this message and write to console 
