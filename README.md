@@ -34,7 +34,9 @@ npm install
 ```
 After you can set to veriler variable in AddData.js :
 ![Alt text](https://raw.githubusercontent.com/omerselimgul/KafkaNodeJs/main/images/adddatajsfile.jpeg)
-3) After you can add veriler variable as new record to Mongodb
+3) 
+
+After you can sent veriler variable as new record to Mongodb for adding
 ```shell
 node AddData.js
 ```
